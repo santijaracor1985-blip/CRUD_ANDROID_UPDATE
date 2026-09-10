@@ -2,7 +2,7 @@ package com.sena.crud.ui.screen
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sena.crud.ui.section.ProductDetails
 import com.sena.crud.ui.viewModel.ProductViewModel
@@ -20,7 +20,11 @@ fun ProductScreen(
 
     ProductDetails(
         uiState = uiState.value,
-        onRetry = { viewModel.getProductById(productId) },
-        onUpdate = { product -> viewModel.updateProduct(product) }
+        onRetry = {
+            viewModel.getProductById(productId)
+        },
+        onUpdate = { product ->
+            viewModel.updateProduct(product)
+        }
     )
 }
