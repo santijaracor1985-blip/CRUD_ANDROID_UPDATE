@@ -4,8 +4,9 @@ import com.sena.crud.domain.model.ProductModel
 
 data class ProductUIState(
     val isLoading: Boolean = false,
-    val isUpdating: Boolean = false,
-    val product: ProductModel? = null,
+    val isSaving: Boolean = false,
+    val products: List<ProductModel> = emptyList(),
+    val selectedProduct: ProductModel? = null,
     val errorMessage: String? = null,
     val successMessage: String? = null
 )

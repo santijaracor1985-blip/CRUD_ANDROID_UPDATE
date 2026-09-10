@@ -9,22 +9,28 @@ import jakarta.inject.Inject
 
 class ProductRepositoryImpl @Inject constructor(
     private val api: ProductApiService
-): ProductRepository {
-    override suspend fun GetProductById(id: Int): ProductModel {
-        val response = api.GetProductByid(id)
-        return response.toDomain()
+) : ProductRepository {
+    override suspend fun getProducts(): List<ProductModel> =
+        api.getProducts().products.map { it.toDomain() }
+
+    override suspend fun getProductById(id: Int): ProductModel =
+        api.getProductById(id).toDomain()
+
+    override suspend fun createProduct(product: ProductModel): ProductModel =
+        api.createProduct(product.toRequest()).toDomain()
+
+    override suspend fun updateProduct(product: ProductModel): ProductModel =
+        api.updateProduct(product.id, product.toRequest()).toDomain()
+
+    override suspend fun deleteProduct(id: Int): Boolean {
+        api.deleteProduct(id)
+        return true
     }
 
-    override suspend fun updateProduct(product: ProductModel): ProductModel {
-        val response = api.updateProduct(
-            id = product.id,
-            product = UpdateProductRequest(
-                title = product.title,
-                description = product.description,
-                category = product.category,
-                price = product.price
-            )
-        )
-        return response.toDomain()
-    }
+    private fun ProductModel.toRequest() = UpdateProductRequest(
+        title = title,
+        description = description,
+        category = category,
+        price = price
+    )
 }
